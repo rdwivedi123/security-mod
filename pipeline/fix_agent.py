@@ -70,7 +70,7 @@ def run(app, app_cfg, app_dir, findings, apply=False, open_pr=False):
     audit.log("fix_proposed", app=app, changes=[c[:3] for c in changes])
     if not apply:
         return diff
-    branch = "security/auto-fix-" + app
+    branch = "security/auto-fix-" + app + "-" + os.environ.get("GITHUB_RUN_ID", "local")
     subprocess.run(["git", "checkout", "-b", branch], check=True)
     open(req, "w").write("\n".join(new) + "\n")
     subprocess.run(["git", "add", req], check=True)
