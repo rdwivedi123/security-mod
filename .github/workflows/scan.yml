@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+      - name: Create output directory
+        run: mkdir -p out
       - name: Trivy scan
         uses: aquasecurity/trivy-action@master  # pin to a released version or SHA in the client repo
         with: {scan-type: fs, scan-ref: sample-app, format: json, output: out/trivy.json}
