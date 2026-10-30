@@ -1,0 +1,33 @@
+name: appsec-poc
+on:
+  workflow_dispatch:
+  schedule: [{cron: "0 3 * * 1"}]
+permissions:
+  contents: write
+  pull-requests: write
+jobs:
+  scan-and-propose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Trivy scan
+        uses: aquasecurity/trivy-action@master   # pin to a released version or SHA in the client repo
+        with: {scan-type: fs, scan-ref: sample-app, format: json, output: out/trivy.json}
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.12"}
+      - run: pip install -r requirements.txt
+      - name: Rank findings and propose fixes (dry run)
+        run: python -m pipeline.run --scan out/trivy.json --app sample-app
+      - name: Upload to DefectDojo
+        if: ${{ vars.DD_URL != '' }}
+        env: {DD_URL: "${{ vars.DD_URL }}", DD_TOKEN: "${{ secrets.DD_TOKEN }}"}
+        run: python -m pipeline.push_to_defectdojo out/trivy.json --product sample-app
+      - name: Open DRAFT fix pull request (needs approval of the 'fix' environment)
+        if: github.event_name == 'workflow_dispatch'
+        environment: fix        # configure required reviewers on this environment
+        env: {GH_TOKEN: "${{ github.token }}", ANTHROPIC_API_KEY: "${{ secrets.ANTHROPIC_API_KEY }}"}
+        run: |
+          git config user.name "appsec-poc-agent"; git config user.email "agent@example.com"
+          python -m pipeline.run --scan out/trivy.json --app sample-app --apply --open-pr
+      - uses: actions/upload-artifact@v4
+        with: {name: poc-output, path: out/}

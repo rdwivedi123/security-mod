@@ -1,0 +1,13 @@
+{
+  "_note": "SYNTHETIC DATA. IDs and versions are fake and only demonstrate the pipeline.",
+  "Results": [
+    {"Target": "requirements.txt", "Class": "lang-pkgs", "Type": "pip",
+     "Vulnerabilities": [
+      {"VulnerabilityID": "CVE-SAMPLE-0001", "PkgName": "flask", "InstalledVersion": "2.0.1", "FixedVersion": "2.2.5", "Severity": "HIGH", "Title": "Sample: session handling weakness"},
+      {"VulnerabilityID": "CVE-SAMPLE-0002", "PkgName": "requests", "InstalledVersion": "2.25.0", "FixedVersion": "2.31.0", "Severity": "MEDIUM", "Title": "Sample: header leak on redirect"},
+      {"VulnerabilityID": "CVE-SAMPLE-0003", "PkgName": "pyyaml", "InstalledVersion": "5.3.1", "FixedVersion": "5.4", "Severity": "CRITICAL", "Title": "Sample: unsafe load allows code execution"},
+      {"VulnerabilityID": "CVE-SAMPLE-0004", "PkgName": "pyyaml", "InstalledVersion": "5.3.1", "FixedVersion": "6.0.1", "Severity": "HIGH", "Title": "Sample: second flaw fixed in a later release"},
+      {"VulnerabilityID": "CVE-SAMPLE-0005", "PkgName": "jinja2", "InstalledVersion": "2.11.3", "FixedVersion": "", "Severity": "LOW", "Title": "Sample: no fix available yet"}
+     ]}
+  ]
+}
