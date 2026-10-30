@@ -1,0 +1,8 @@
+# Application register. Replace with the client's shortlisted applications.
+apps:
+  sample-app:
+    owner: team-payments@example.com
+    repo: your-org/sample-app
+    exposure: internet      # internet | internal
+    criticality: high       # high | medium | low
+    has_tests: true         # auto-fix only proposed when true
